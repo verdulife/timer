@@ -1,15 +1,20 @@
 <script lang="ts">
+	import Topbar from '$lib/components/Topbar.svelte';
 	import Timer from '$lib/components/Timer.svelte';
 	import Add from '$lib/components/Add.svelte';
 	import { timerStore } from '$lib/stores';
+
+	let isDark = false;
 </script>
 
 <svelte:head>
 	<title>Timer ⌛</title>
 </svelte:head>
 
-<div class="scroll">
+<div class="scroll {isDark ? 'darkmode' : ''}">
 	<div class="wrapper col xfill">
+		<Topbar bind:isDark />
+
 		{#each $timerStore as state, index}
 			<Timer {state} {index} />
 		{/each}
@@ -28,6 +33,10 @@
 		@media (max-width: $mobile) {
 			padding: 20px;
 		}
+	}
+
+	.darkmode {
+		filter: invert(1);
 	}
 
 	.wrapper {

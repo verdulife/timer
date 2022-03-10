@@ -10,7 +10,10 @@
 	let isRunning: any;
 
 	function updateStore() {
-		$timerStore[index].timer = timer;
+		$timerStore[index] = {
+			title,
+			timer
+		};
 	}
 
 	function playPause() {
@@ -35,19 +38,42 @@
 		updateStore();
 	}
 
+	function edit() {
+		const newTitle = prompt('Enter new title', title);
+
+		if (newTitle) {
+			title = newTitle;
+			updateStore();
+		}
+	}
+
+	function remove() {
+		const res = confirm('Are you sure you want to delete this timer?');
+
+		if (res) {
+			$timerStore.splice(index, 1);
+			$timerStore = $timerStore;
+		}
+	}
+
 	if (browser) {
 		window.addEventListener('keydown', (e) => {
 			if (e.altKey && e.key === (index + 1).toString()) {
 				playPause();
+			}
+
+			if (e.ctrlKey && e.altKey && e.key === (index + 1).toString()) {
+				reset();
 			}
 		});
 	}
 </script>
 
 <section class="row acenter xfill">
-	<div class="main col jcenter grow">
+	<div class="main col jcenter grow ">
 		<h2 class="row acenter">
-			<span class="row fcenter">ALT + {index + 1}</span>
+			<span class="row fcenter" on:click={edit}>EDIT</span>
+			<span class="row fcenter" on:click={remove}>REMOVE</span>
 			{title}
 		</h2>
 
@@ -59,11 +85,11 @@
 	</div>
 
 	<aside class="col">
-		<button class="reset-btn" on:click={reset}>
+		<button class="reset-btn" on:click={reset} title="CTRL + ALT + {index + 1}">
 			<img src="/icons/reset.svg" alt="Reset" />
 		</button>
 
-		<button class="play-btn" on:click={playPause}>
+		<button class="play-btn" on:click={playPause} title="ALT + {index + 1}">
 			<img src={isRunning ? '/icons/pause.svg' : '/icons/play.svg'} alt="Play" />
 		</button>
 	</aside>
@@ -71,6 +97,7 @@
 
 <style lang="scss">
 	section {
+		flex-wrap: nowrap;
 		background: #fff;
 		border: 1px solid $border;
 		border-radius: 16px;
@@ -84,12 +111,14 @@
 		h2 {
 			font-size: 16px;
 			color: $grey;
+			margin-bottom: 10px;
 
 			@media (max-width: $mobile) {
 				font-size: 12px;
 			}
 
 			span {
+				cursor: pointer;
 				height: 20px;
 				background: $border;
 				color: $grey;
@@ -107,7 +136,7 @@
 		}
 
 		output {
-			font-size: 100px;
+			font-size: 80px;
 			font-weight: bold;
 
 			@media (max-width: $mobile) {
@@ -120,7 +149,7 @@
 				width: 1ch;
 
 				&:nth-last-of-type(-n + 6) {
-					font-size: 60px;
+					font-size: 40px;
 					font-weight: normal;
 					transform: translateY(-0.3ch);
 
