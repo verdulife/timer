@@ -77,7 +77,7 @@
 			{title}
 		</h2>
 
-		<output class="row acenter fill">
+		<output class="row acenter fill" on:click={playPause}>
 			{#each timerFormat(timer) as d}
 				<span>{d}</span>
 			{/each}
@@ -136,6 +136,7 @@
 		}
 
 		output {
+			cursor: pointer;
 			font-size: 80px;
 			font-weight: bold;
 

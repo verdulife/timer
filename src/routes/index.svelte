@@ -4,7 +4,7 @@
 	import Add from '$lib/components/Add.svelte';
 	import { timerStore } from '$lib/stores';
 
-	let isDark = false;
+	let isDark: boolean;
 </script>
 
 <svelte:head>

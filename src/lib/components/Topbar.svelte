@@ -1,5 +1,9 @@
 <script lang="ts">
-	export let isDark: boolean;
+	import { mode } from '$app/env';
+
+	import { modeStore } from '$lib/stores';
+
+	export let isDark = $modeStore;
 
 	const date = new Date();
 	const today = new Intl.DateTimeFormat('es-ES', {
@@ -10,6 +14,7 @@
 
 	function changeMode() {
 		isDark = !isDark;
+		$modeStore = isDark;
 	}
 </script>
 
