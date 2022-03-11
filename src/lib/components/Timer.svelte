@@ -13,7 +13,7 @@
 		weekday: 'long',
 		month: 'long',
 		day: 'numeric'
-	}).format(started);
+	}).format(new Date(started));
 
 	function updateStore() {
 		$timerStore[index] = {
