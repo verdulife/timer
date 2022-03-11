@@ -3,6 +3,10 @@
 	import 'verdu/fonts/operator.css';
 </script>
 
+<svelte:head>
+	<title>Counter Timer | Work chronometer</title>
+</svelte:head>
+
 <main>
 	<slot />
 </main>

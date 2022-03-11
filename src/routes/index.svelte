@@ -7,10 +7,6 @@
 	let isDark: boolean;
 </script>
 
-<svelte:head>
-	<title>Timer ⌛</title>
-</svelte:head>
-
 <div class="scroll {isDark ? 'darkmode' : ''}">
 	<div class="wrapper col xfill">
 		<Topbar bind:isDark />
