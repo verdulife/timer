@@ -29,6 +29,7 @@
 	.scroll {
 		background: $border;
 		padding: 60px;
+		transition: 500ms;
 
 		@media (max-width: $mobile) {
 			padding: 20px;

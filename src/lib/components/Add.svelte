@@ -6,6 +6,7 @@
 
 		if (title) {
 			const defaultState = {
+				started: new Date(),
 				title,
 				timer: 0
 			};

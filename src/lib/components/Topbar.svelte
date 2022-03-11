@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { mode } from '$app/env';
-
 	import { modeStore } from '$lib/stores';
 
 	export let isDark = $modeStore;
-
+	
 	const date = new Date();
 	const today = new Intl.DateTimeFormat('es-ES', {
 		weekday: 'long',

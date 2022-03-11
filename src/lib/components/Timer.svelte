@@ -3,14 +3,21 @@
 	import { timerFormat } from '$lib/scripts/timer-format';
 	import { timerStore } from '$lib/stores';
 
-	export let state: { title: string; timer: number };
+	export let state: { started: Date; title: string; timer: number };
 	export let index = 0;
 
-	let { title, timer } = state;
+	let { started, title, timer } = state;
 	let isRunning: any;
+
+	const date = new Intl.DateTimeFormat('es-ES', {
+		weekday: 'long',
+		month: 'long',
+		day: 'numeric'
+	}).format(started);
 
 	function updateStore() {
 		$timerStore[index] = {
+			started,
 			title,
 			timer
 		};
@@ -34,6 +41,7 @@
 			isRunning = false;
 		}
 
+		started = new Date();
 		timer = 0;
 		updateStore();
 	}
@@ -71,17 +79,21 @@
 
 <section class="row acenter xfill">
 	<div class="main col jcenter grow ">
-		<h2 class="row acenter">
-			<span class="row fcenter" on:click={edit}>EDIT</span>
-			<span class="row fcenter" on:click={remove}>REMOVE</span>
-			{title}
-		</h2>
+		<header class="col xfill">
+			<h2>{title}</h2>
+			<small>{date}</small>
+		</header>
 
-		<output class="row acenter fill" on:click={playPause}>
+		<output class="row fill" on:click={playPause}>
 			{#each timerFormat(timer) as d}
 				<span>{d}</span>
 			{/each}
 		</output>
+
+		<footer class="row acenter xfill">
+			<span class="row fcenter" on:click={edit}>EDIT</span>
+			<span class="row fcenter" on:click={remove}>REMOVE</span>
+		</footer>
 	</div>
 
 	<aside class="col">
@@ -108,29 +120,27 @@
 	.main {
 		padding: 16px 24px;
 
-		h2 {
-			font-size: 16px;
-			color: $grey;
+		header {
 			margin-bottom: 10px;
 
-			@media (max-width: $mobile) {
-				font-size: 12px;
-			}
-
-			span {
-				cursor: pointer;
-				height: 20px;
-				background: $border;
+			h2 {
+				font-size: 18px;
 				color: $grey;
-				font-size: 12px;
-				border-radius: 6px;
-				padding: 0 6px;
-				margin-right: 6px;
 
 				@media (max-width: $mobile) {
-					height: 18px;
+					font-size: 14px;
+				}
+			}
+
+			small {
+				font-size: 12px;
+
+				&:first-letter {
+					text-transform: uppercase;
+				}
+
+				@media (max-width: $mobile) {
 					font-size: 10px;
-					padding: 0 6px;
 				}
 			}
 		}
@@ -152,16 +162,36 @@
 				&:nth-last-of-type(-n + 6) {
 					font-size: 40px;
 					font-weight: normal;
-					transform: translateY(-0.3ch);
+					transform: translateY(0.3ch);
 
 					@media (max-width: $mobile) {
 						font-size: 20px;
-						transform: translateY(-0.5ch);
+						transform: translateY(0.5ch);
 					}
 				}
 
 				&:nth-of-type(3n) {
 					width: 0.6ch;
+				}
+			}
+		}
+
+		footer {
+			margin-top: 10px;
+			span {
+				cursor: pointer;
+				height: 20px;
+				background: $border;
+				color: $grey;
+				font-size: 12px;
+				border-radius: 6px;
+				padding: 0 6px;
+				margin-right: 6px;
+
+				@media (max-width: $mobile) {
+					height: 18px;
+					font-size: 10px;
+					padding: 0 6px;
 				}
 			}
 		}
