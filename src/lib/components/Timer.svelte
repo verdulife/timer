@@ -10,10 +10,15 @@
 	let elapsed: number = 0;
 	let isRunning: any;
 
-	const date = new Intl.DateTimeFormat('es-ES', {
+	const sinceDate = new Intl.DateTimeFormat('es-ES', {
 		weekday: 'long',
 		month: 'long',
 		day: 'numeric'
+	}).format(new Date(started));
+
+	const sinceTime = new Intl.DateTimeFormat('es-ES', {
+		hour: 'numeric',
+		minute: 'numeric'
 	}).format(new Date(started));
 
 	function updateStore() {
@@ -88,7 +93,7 @@
 	<div class="main col jcenter grow ">
 		<header class="col xfill">
 			<h2>{title}</h2>
-			<small>{date}</small>
+			<small>Empezo el {sinceDate}, a las {sinceTime}h</small>
 		</header>
 
 		<output class="row fill" on:click={playPause}>
