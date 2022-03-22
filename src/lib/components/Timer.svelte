@@ -7,6 +7,7 @@
 	export let index = 0;
 
 	let { started, title, timer } = state;
+	let elapsed: number = 0;
 	let isRunning: any;
 
 	const date = new Intl.DateTimeFormat('es-ES', {
@@ -26,11 +27,18 @@
 	function playPause() {
 		if (isRunning) {
 			clearInterval(isRunning);
+
+			timer = timer + elapsed;
+			elapsed = 0;
 			isRunning = false;
+
 			updateStore();
 		} else {
+			let start = Date.now();
+
 			isRunning = setInterval(() => {
-				timer += 100;
+				let now = Date.now();
+				elapsed = now - start;
 			}, 100);
 		}
 	}
@@ -85,7 +93,7 @@
 		</header>
 
 		<output class="row fill" on:click={playPause}>
-			{#each timerFormat(timer) as d}
+			{#each timerFormat(timer + elapsed) as d}
 				<span>{d}</span>
 			{/each}
 		</output>
