@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/env';
 	import { timerStore } from '$lib/stores';
 
 	function addTimer() {
@@ -13,6 +14,12 @@
 
 			$timerStore = [...$timerStore, defaultState];
 		}
+	}
+
+	if (browser) {
+		window.addEventListener('keydown', (e) => {
+			if (e.altKey && e.key === 'Enter') addTimer();
+		});
 	}
 </script>
 

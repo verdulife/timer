@@ -28,7 +28,7 @@
 		if (isRunning) {
 			clearInterval(isRunning);
 
-			timer = timer + elapsed;
+			timer += elapsed;
 			elapsed = 0;
 			isRunning = false;
 
@@ -74,13 +74,12 @@
 
 	if (browser) {
 		window.addEventListener('keydown', (e) => {
-			if (e.altKey && e.key === (index + 1).toString()) {
-				playPause();
-			}
+			if (e.altKey && e.key === (index + 1).toString()) playPause();
+			if (e.ctrlKey && e.altKey && e.key === (index + 1).toString()) reset();
+		});
 
-			if (e.ctrlKey && e.altKey && e.key === (index + 1).toString()) {
-				reset();
-			}
+		window.addEventListener('beforeunload', () => {
+			if (isRunning) playPause();
 		});
 	}
 </script>
